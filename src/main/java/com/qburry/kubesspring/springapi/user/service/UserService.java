@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -22,6 +23,14 @@ public class UserService {
         log.info("person service save called...");
         UserEntity save = repository.save(userMapper.toEntity(user));
         return save.getId();
+    }
+
+    public Optional<User> findById(Long id){
+        return repository.findById(id).map(userMapper::toUser);
+    }
+
+    public void saveAll(List<User> users){
+        List<UserEntity> userEntities = repository.saveAll(userMapper.toEntities(users));
     }
 
     public List<User> findAll() {

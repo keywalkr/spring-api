@@ -1,12 +1,10 @@
 package com.qburry.kubesspring.springapi.store.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@With
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {

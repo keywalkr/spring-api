@@ -1,14 +1,12 @@
 package com.qburry.kubesspring.springapi.user.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
@@ -17,6 +15,7 @@ public class User {
     private String lastname;
     private String email;
     private String mobile;
+    private Gender gender;
     private String role;
     private String avatar;
     private LocalDateTime emailValidated;

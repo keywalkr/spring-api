@@ -2,6 +2,7 @@ package com.qburry.kubesspring.springapi.store.service;
 
 import com.qburry.kubesspring.springapi.store.dto.Product;
 import com.qburry.kubesspring.springapi.store.mapper.ProductMapper;
+import com.qburry.kubesspring.springapi.store.model.ProductEntity;
 import com.qburry.kubesspring.springapi.store.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class ProductService {
     private final ProductMapper productMapper;
 
     public List<Product> findAllProduct() {
-        return productMapper.toProducts(productRepository.findAll());
+        List<ProductEntity> entities = productRepository.findAll();
+        return productMapper.toProducts(entities);
     }
 }

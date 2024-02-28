@@ -13,14 +13,19 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/users", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/user", produces = APPLICATION_JSON_VALUE)
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
+    @GetMapping("/list")
     public List<User> getAll() {
         return userService.findAll();
+    }
+
+    @GetMapping("/info/{id}")
+    public User getUserById(@PathVariable("id") Long id) {
+        return userService.findById(id).orElseThrow(IllegalStateException::new);
     }
 
     @PostMapping("/add")

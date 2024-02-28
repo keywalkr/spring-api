@@ -11,12 +11,12 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/products")
+@RequestMapping("/store/product")
 public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping
+    @GetMapping("/list")
     public List<Product> getAllProducts() {
         return productService.findAllProduct();
     }

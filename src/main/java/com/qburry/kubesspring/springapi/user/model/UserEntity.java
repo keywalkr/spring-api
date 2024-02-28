@@ -1,5 +1,7 @@
 package com.qburry.kubesspring.springapi.user.model;
 
+import com.qburry.kubesspring.springapi.core.constants.Role;
+import com.qburry.kubesspring.springapi.user.dto.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,9 +13,9 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@With
 @Table(name = "users")
 public class UserEntity implements Serializable {
     @Id
@@ -23,7 +25,10 @@ public class UserEntity implements Serializable {
     private String lastname;
     private String email;
     private String mobile;
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     private String avatar;
     private LocalDateTime emailValidated;
     private LocalDateTime mobileValidated;
@@ -35,7 +40,7 @@ public class UserEntity implements Serializable {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "id")
     private AccountEntity account;

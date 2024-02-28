@@ -21,6 +21,7 @@ create table users
     email            varchar(255),
     mobile           varchar(255),
     role             varchar(255),
+    gender           varchar(255),
     avatar           varchar(255),
     email_validated  timestamp(6),
     mobile_validated timestamp(6),
@@ -28,7 +29,6 @@ create table users
     updated_at       timestamp(6),
     primary key (id)
 );
-
 alter table users
     add constraint fk_users_account foreign key (id) references account (id);
 
@@ -41,16 +41,8 @@ create table category
     created_at  timestamp not null,
     updated_at  timestamp
 );
-
-create table review
-(
-    id         bigint primary key,
-    user_id    bigint    not null,
-    product_id bigint    not null,
-    rating     int,
-    comment    varchar(255),
-    created_at timestamp not null
-);
+alter table category
+    add constraint fk_category_category foreign key (parent_id) references category (id);
 
 create table product
 (
@@ -64,31 +56,84 @@ create table product
     created_at  timestamp not null,
     updated_at  timestamp
 );
-
-alter table category
-    add constraint fk_category_category foreign key (parent_id) references category (id);
-
-alter table review
-    add constraint fk_review_users foreign key (user_id) references users (id);
-
-alter table review
-    add constraint fk_review_product foreign key (product_id) references product (id);
-
 alter table product
     add constraint fk_product_category foreign key (category_id) references category (id);
 
+create table review
+(
+    id         bigint primary key,
+    user_id    bigint    not null,
+    product_id bigint    not null,
+    rating     int,
+    comment    varchar(255),
+    created_at timestamp not null
+);
+alter table review
+    add constraint fk_review_users foreign key (user_id) references users (id);
+alter table review
+    add constraint fk_review_product foreign key (product_id) references product (id);
+
+
+
+create table orders
+(
+    id         uuid primary key not null,
+    user_id    bigint           not null,
+    created_at timestamp        not null
+);
+alter table orders
+    add constraint fk_orders_users foreign key (user_id) references users (id);
+
+create table order_lines
+(
+    id         uuid primary key,
+    order_id   uuid   not null,
+    product_id bigint not null,
+    price      float  not null,
+    quantity   int    not null
+);
+alter table order_lines
+    add constraint fk_oderLines_order foreign key (order_id) references orders (id);
+alter table order_lines
+    add constraint fk_orderLines_product foreign key (product_id) references product (id);
+
+create table cart
+(
+    id         uuid primary key,
+    user_id    bigint unique            not null,
+    status     varchar(50),
+    created_at timestamp with time zone not null,
+    updated_at timestamp with time zone
+);
+alter table cart
+    add constraint fk_cart_user foreign key (user_id) references users (id);
+
+create table cart_items
+(
+    id         uuid primary key,
+    cart_id    uuid    not null,
+    product_id bigint  not null,
+    price      float   not null,
+    quantity   integer not null
+);
+alter table cart_items
+    add constraint fk_cartitems_cart foreign key (cart_id) references cart (id);
+alter table cart_items
+    add constraint fk_cartitems_product foreign key (product_id) references product (id);
+alter table cart_items
+    add constraint uk_cartitems_cartAndProduct unique (cart_id, product_id);
 
 -- INSERT
 
-insert into account(username, password, created_at)
-values ('Azangue', 'kevin.azangue@kubes.com', '2024-02-22T18:13:45'),
-       ('Abdul', 'karim.abdul@kubes.com', '2024-02-22T18:13:45'),
-       ('Doe', 'john.doe@kubes.com', '2024-02-22T18:13:45');
+--insert into account(username, password, created_at)
+--values ('Azangue', 'kevin.azangue@kubes.com', '2024-02-22T18:13:45'),
+--       ('Abdul', 'karim.abdul@kubes.com', '2024-02-22T18:13:45'),
+--       ('Doe', 'john.doe@kubes.com', '2024-02-22T18:13:45');
 
-insert into users(id, firstname, lastname, email, mobile, created_at)
-values (1, 'Kevin', 'Azangue', 'kevin.azangue@kubes.com', '01265984521', '2024-02-22T18:13:45'),
-       (2, 'Karim', 'Abdul', 'karim.abdul@kubes.com', '023651478952', '2024-02-22T18:13:45'),
-       (3, 'John', 'Doe', 'john.doe@kubes.com', '0125874596321', '2024-02-22T18:13:45');
+--insert into users(id, firstname, lastname, email, mobile, created_at)
+--values (1, 'Kevin', 'Azangue', 'kevin.azangue@kubes.com', '01265984521', '2024-02-22T18:13:45'),
+--       (2, 'Karim', 'Abdul', 'karim.abdul@kubes.com', '023651478952', '2024-02-22T18:13:45'),
+--       (3, 'John', 'Doe', 'john.doe@kubes.com', '0125874596321', '2024-02-22T18:13:45');
 
 insert into category(name, description, created_at, parent_id)
 values ('Fashion', 'for adults and children', '2024-02-22T23:13:45', null),
@@ -99,10 +144,12 @@ values ('Fashion', 'for adults and children', '2024-02-22T23:13:45', null),
        ('Trousers', 'for adults and children', '2024-02-22T23:13:45', 2),
        ('Hoodies & Sweatshirts', 'for adults and children', '2024-02-22T23:13:45', 2),
        ('Cardigans & Sweaters', 'for adults and children', '2024-02-22T23:13:45', 2),
-       ('Shirts', 'for adults and children', '2024-02-22T23:13:45',2),
-       ('Tennis', 'for adults and children', '2024-02-22T23:13:45',3),
-       ('Basketball', 'for adults and children', '2024-02-22T23:13:45',3),
-       ('Sneakers', 'for adults and children', '2024-02-22T23:13:45',3);
+       ('Shirts', 'for adults and children', '2024-02-22T23:13:45', 2),
+       ('Tennis', 'for adults and children', '2024-02-22T23:13:45', 3),
+       ('Basketball', 'for adults and children', '2024-02-22T23:13:45', 3),
+       ('Sneakers', 'for adults and children', '2024-02-22T23:13:45', 3);
 
 insert into product(category_id, name, picture, summary, description, price, created_at)
-values (1, 'Boss Black', 'Picture', 'Cotton', '100% cotton', 145.85, '2024-02-22T23:13:45')
+values (6, 'Boss Black', 'Picture', 'Cotton', '100% cotton', 145.85, '2024-02-22T23:13:45'),
+       (9, 'Cavalli Class', 'https://picture.bestsecret.com/static/images/2641/image_32908951_55_620x757_3.jpg',
+        'polo shirt Colour Khake', '100% cotton', 145.85, '2024-02-22T23:13:45');
