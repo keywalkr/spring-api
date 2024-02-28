@@ -6,7 +6,7 @@ create table account
     username   varchar(255),
     password   varchar(255),
     hash       varchar(255),
-    salt       varchar(255),
+    salt       varchar(255) unique,
     created_at timestamp(6) not null,
     updated_at timestamp(6),
     last_login timestamp(6),

@@ -7,7 +7,6 @@ import com.qburry.kubesspring.springapi.store.model.CategoryEntity;
 import com.qburry.kubesspring.springapi.store.repository.CategoryRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -34,13 +34,13 @@ public class SpringApiApplication {
 
     List<User> users = List.of(
       User.builder().firstname("Kevin").lastname("Az").email("kevin@az.de").mobile("1234567").gender(Gender.MALE).role("ADMIN")
-              .account(Account.builder().username("kaz").password("password").salt("salt").hash("hash").build()).build(),
+              .account(Account.builder().username("kaz").password("password").salt("salt1").hash("hash").build()).build(),
       User.builder().firstname("John").lastname("Doe").email("john@doe.de").mobile("1234567").gender(Gender.MALE).role("CREATOR")
-              .account(Account.builder().username("j.doe").password("password").salt("salt").hash("hash").build()).build(),
+              .account(Account.builder().username("j.doe").password("password").salt("salt2").hash("hash").build()).build(),
       User.builder().firstname("Jane").lastname("Doe").email("janen@doe.de").mobile("1234567").gender(Gender.FEMALE).role("EDITOR")
-              .account(Account.builder().username("doe").password("password").salt("salt").hash("hash").build()).build(),
+              .account(Account.builder().username("doe").password("password").salt("salt3").hash("hash").build()).build(),
       User.builder().firstname("Obi").lastname("Kenobi").email("kenobi@kubes.de").mobile("1234567").gender(Gender.UNDEFINED).role("CUSTOMER")
-              .account(Account.builder().username("obi").password("password").salt("salt").hash("hash").build()).build()
+              .account(Account.builder().username("obi").password("password").salt("salt4").hash("hash").build()).build()
     );
 
 }
