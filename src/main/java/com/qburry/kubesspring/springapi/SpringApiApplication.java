@@ -3,6 +3,7 @@ package com.qburry.kubesspring.springapi;
 import com.qburry.kubesspring.springapi.user.dto.Account;
 import com.qburry.kubesspring.springapi.user.dto.Gender;
 import com.qburry.kubesspring.springapi.user.dto.User;
+import com.qburry.kubesspring.springapi.user.service.AuthenticationService;
 import com.qburry.kubesspring.springapi.user.service.UserService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -26,9 +27,9 @@ public class SpringApiApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(UserService userService) {
+    CommandLineRunner commandLineRunner(AuthenticationService authenticationService) {
         return args -> {
-            userService.saveAll(users);
+            users.forEach(authenticationService::signup);
         };
     }
 
@@ -39,7 +40,7 @@ public class SpringApiApplication {
               .account(Account.builder().username("j.doe").password("password").salt("salt2").hash("hash").build()).build(),
       User.builder().firstname("Jane").lastname("Doe").email("janen@doe.de").mobile("1234567").gender(Gender.FEMALE).role("EDITOR")
               .account(Account.builder().username("doe").password("password").salt("salt3").hash("hash").build()).build(),
-      User.builder().firstname("Obi").lastname("Kenobi").email("kenobi@kubes.de").mobile("1234567").gender(Gender.UNDEFINED).role("CUSTOMER")
+      User.builder().firstname("Obi").lastname("Kenobi").email("kenobi@kubes.de").mobile("1234567").gender(Gender.UNDEFINED).role("USER")
               .account(Account.builder().username("obi").password("password").salt("salt4").hash("hash").build()).build()
     );
 

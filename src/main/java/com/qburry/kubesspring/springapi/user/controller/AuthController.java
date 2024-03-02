@@ -1,25 +1,42 @@
 package com.qburry.kubesspring.springapi.user.controller;
 
+import com.qburry.kubesspring.springapi.core.jwt.JwtService;
+import com.qburry.kubesspring.springapi.user.dto.AuthRequest;
+import com.qburry.kubesspring.springapi.user.dto.AuthResponse;
 import com.qburry.kubesspring.springapi.user.dto.User;
-import lombok.AllArgsConstructor;
+import com.qburry.kubesspring.springapi.user.service.AuthenticationService;
+import com.qburry.kubesspring.springapi.user.service.UserService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @CrossOrigin
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
 
+    //private final UserService userService;
+    private final AuthenticationService authenticationService;
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
-        return ResponseEntity.ok("Successfully registered...");
+        log.info("Registration resource called...");
+        Long id = authenticationService.signup(user);
+        return ResponseEntity.ok("Successfully registered..." + id);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate() {
-        return ResponseEntity.ok("");
+    public ResponseEntity<?> authenticate(@RequestBody AuthRequest authRequest) {
+        log.info("Authentication resource called...");
+        return ResponseEntity.ok(authenticationService.authenticate(authRequest));
     }
 
     @GetMapping("/logout")

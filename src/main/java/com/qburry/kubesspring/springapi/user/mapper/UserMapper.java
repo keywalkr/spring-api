@@ -1,8 +1,10 @@
 package com.qburry.kubesspring.springapi.user.mapper;
 
 import com.qburry.kubesspring.springapi.user.dto.User;
+import com.qburry.kubesspring.springapi.user.dto.UserInfoDetails;
 import com.qburry.kubesspring.springapi.user.model.UserEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 

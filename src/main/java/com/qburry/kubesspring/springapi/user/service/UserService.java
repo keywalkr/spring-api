@@ -11,29 +11,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
-@Service
-@AllArgsConstructor
-public class UserService {
 
-    private final UserRepository repository;
-    private final UserMapper userMapper;
+public interface UserService {
+    Long save(User user);
 
-    public Long save(User user) {
-        log.info("person service save called...");
-        UserEntity save = repository.save(userMapper.toEntity(user));
-        return save.getId();
-    }
+    Optional<User> findById(Long id);
 
-    public Optional<User> findById(Long id){
-        return repository.findById(id).map(userMapper::toUser);
-    }
+    Optional<User> findByEmail(String email);
 
-    public void saveAll(List<User> users){
-        List<UserEntity> userEntities = repository.saveAll(userMapper.toEntities(users));
-    }
+    Optional<User> findByAccount_Username(String username);
 
-    public List<User> findAll() {
-        return userMapper.toUsers(repository.findAll());
-    }
+    void saveAll(List<User> users);
+
+    List<User> findAll();
 }

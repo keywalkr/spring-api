@@ -1,0 +1,60 @@
+package com.qburry.kubesspring.springapi.user.service;
+
+import com.qburry.kubesspring.springapi.core.jwt.JwtService;
+import com.qburry.kubesspring.springapi.user.dto.Account;
+import com.qburry.kubesspring.springapi.user.dto.AuthRequest;
+import com.qburry.kubesspring.springapi.user.dto.AuthResponse;
+import com.qburry.kubesspring.springapi.user.dto.User;
+import com.qburry.kubesspring.springapi.user.mapper.UserMapper;
+import com.qburry.kubesspring.springapi.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class AuthenticationService {
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+
+    public Long signup(User user){
+        log.info("Sign up user...");
+
+        userRepository.findByAccount_Username(user.getAccount().getUsername()).ifPresent(
+                user1 -> {
+                    throw new RuntimeException("User " + user1.getAccount().getUsername() + " already exists!");
+                }
+        );
+        Account account = Account.builder()
+                .username(user.getAccount().getUsername())
+                .password(passwordEncoder.encode(user.getAccount().getPassword()))
+                .hash(user.getAccount().getHash())
+                .salt(user.getAccount().getSalt())
+                .build();
+        user.setAccount(account);
+        return userRepository.save(userMapper.toEntity(user)).getId();
+    }
+
+    public AuthResponse authenticate(AuthRequest request) {
+        log.info("Authenticate user request...");
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+
+        if(authentication.isAuthenticated()){
+            return AuthResponse.builder()
+                    .accessToken(jwtService.createToken(authentication))
+                    .build();
+        }else {
+            throw new UsernameNotFoundException("invalid user request ...");
+        }
+    }
+}

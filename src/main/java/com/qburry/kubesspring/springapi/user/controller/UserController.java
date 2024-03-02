@@ -4,7 +4,7 @@ import com.qburry.kubesspring.springapi.user.dto.ChangePassword;
 import com.qburry.kubesspring.springapi.user.dto.User;
 import com.qburry.kubesspring.springapi.user.service.ChangePasswordService;
 import com.qburry.kubesspring.springapi.user.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +13,7 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/user", produces = APPLICATION_JSON_VALUE)
 public class UserController {
