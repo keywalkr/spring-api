@@ -1,6 +1,7 @@
 package com.qburry.kubesspring.springapi.core.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -12,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,7 +27,7 @@ public class JwtService {
     @Value("${security.jwt.secret-key-512}")
     private String secretKey;
 
-    @Value("${security.jwt.expiration-time}")
+    @Value("${security.jwt.expiration-milliseconds}")
     private long jwtExpiration;
 
     public String createToken(Authentication authentication) {
@@ -40,15 +42,18 @@ public class JwtService {
 
     private String createToken(Map<String, Object> claims, String username) {
         log.info("Create token...");
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(username)
-                .setHeaderParam("typ", "JWT")
-                .setIssuer("kubes-api")
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+ jwtExpiration))
-                .signWith(getSignKey() , SignatureAlgorithm.HS512)
-                .compact();
+        JwtBuilder jwtBuilder = Jwts.builder();
+
+        jwtBuilder.header().add("typ", "JWT");
+        jwtBuilder.claims().add(claims);
+        jwtBuilder.subject(username)
+                .issuer("kube-api")
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis()+ jwtExpiration))
+                .signWith(getSignKey());
+                //.signWith(getSignKey(), SignatureAlgorithm.HS512);
+
+        return jwtBuilder.compact();
     }
 
     public String extractUsername(String token) {
@@ -74,12 +79,21 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignKey() )
+
+        return Jwts.parser()
+                .verifyWith((SecretKey) getSignKey())
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseEncryptedClaims(token)
+                .getPayload();
+        //.getSubject()
+
+
+//        return Jwts
+//                .parserBuilder()
+//                .setSigningKey(getSignKey() )
+//                .build()
+//                .parseClaimsJws(token)
+//                .getBody();
     }
 
     private Key getSignKey() {
