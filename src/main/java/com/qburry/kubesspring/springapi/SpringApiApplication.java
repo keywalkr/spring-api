@@ -4,7 +4,6 @@ import com.qburry.kubesspring.springapi.user.dto.Account;
 import com.qburry.kubesspring.springapi.user.dto.Gender;
 import com.qburry.kubesspring.springapi.user.dto.User;
 import com.qburry.kubesspring.springapi.user.service.AuthenticationService;
-import com.qburry.kubesspring.springapi.user.service.UserService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.CommandLineRunner;
@@ -28,9 +27,7 @@ public class SpringApiApplication {
 
     @Bean
     CommandLineRunner commandLineRunner(AuthenticationService authenticationService) {
-        return args -> {
-            users.forEach(authenticationService::signup);
-        };
+        return args -> users.forEach(authenticationService::signup);
     }
 
     List<User> users = List.of(
