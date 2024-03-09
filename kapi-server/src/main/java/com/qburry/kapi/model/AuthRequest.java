@@ -1,4 +1,4 @@
-package com.qburry.kapi.user.dto;
+package com.qburry.kapi.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

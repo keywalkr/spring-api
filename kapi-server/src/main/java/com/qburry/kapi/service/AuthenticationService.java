@@ -1,8 +1,8 @@
 package com.qburry.kapi.service;
 
-import com.qburry.kapi.user.dto.Account;
-import com.qburry.kapi.user.dto.AuthRequest;
-import com.qburry.kapi.user.dto.AuthResponse;
+import com.qburry.kapi.model.AuthRequest;
+import com.qburry.kapi.model.AuthResponse;
+import com.qburry.kapi.model.RegistrationRequest;
 import com.qburry.kapi.user.dto.User;
 import com.qburry.kapi.user.mapper.UserMapper;
 import com.qburry.kapi.user.repository.UserRepository;
@@ -12,7 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -20,26 +19,20 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final ServerMapper serverMapper;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public Long signup(User user){
+    public Long signup(RegistrationRequest request){
         log.info("Sign up user...");
 
-        userRepository.findByAccount_Username(user.getAccount().getUsername()).ifPresent(
+        userRepository.findByAccount_Username(request.getUsername()).ifPresent(
                 user1 -> {
                     throw new RuntimeException("User " + user1.getAccount().getUsername() + " already exists!");
                 }
         );
-        Account account = Account.builder()
-                .username(user.getAccount().getUsername())
-                .password(passwordEncoder.encode(user.getAccount().getPassword()))
-                .hash(user.getAccount().getHash())
-                .salt(user.getAccount().getSalt())
-                .build();
-        user.setAccount(account);
+        User user = serverMapper.toUser(request);
         return userRepository.save(userMapper.toEntity(user)).getId();
     }
 

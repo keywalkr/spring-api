@@ -1,8 +1,8 @@
 package com.qburry.kapi.web.auth;
 
+import com.qburry.kapi.model.RegistrationRequest;
 import com.qburry.kapi.service.AuthenticationService;
-import com.qburry.kapi.user.dto.AuthRequest;
-import com.qburry.kapi.user.dto.User;
+import com.qburry.kapi.model.AuthRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +20,9 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
+    public ResponseEntity<?> register(@RequestBody RegistrationRequest request) {
         log.info("Registration resource called...");
-        Long id = authenticationService.signup(user);
+        Long id = authenticationService.signup(request);
         return ResponseEntity.ok("Successfully registered..." + id);
     }
 
