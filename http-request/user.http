@@ -26,6 +26,15 @@ Content-Type: application/json
     }
 }
 
+### Log in
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "obi",
+  "password": "password"
+}
+
 ### Change Password
 PUT {{host}}/user/change-password
 Content-Type: application/json

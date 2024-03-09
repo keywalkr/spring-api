@@ -16,6 +16,7 @@ import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -34,7 +35,8 @@ public class JwtService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         Map<String, Object> claims = new HashMap<>();
-        claims.putIfAbsent("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
+        List<String> authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+        claims.putIfAbsent("authorities", authorities);
 
         return createToken(claims, userDetails.getUsername());
     }

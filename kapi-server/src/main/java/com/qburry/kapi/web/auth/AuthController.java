@@ -1,5 +1,6 @@
 package com.qburry.kapi.web.auth;
 
+import com.qburry.kapi.model.RefreshTokenRequest;
 import com.qburry.kapi.model.RegistrationRequest;
 import com.qburry.kapi.service.AuthenticationService;
 import com.qburry.kapi.model.AuthRequest;
@@ -30,6 +31,11 @@ public class AuthController {
     public ResponseEntity<?> authenticate(@RequestBody AuthRequest authRequest) {
         log.info("Authentication resource called...");
         return ResponseEntity.ok(authenticationService.authenticate(authRequest));
+    }
+
+    @PostMapping("refresh-token")
+    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest request) {
+        return ResponseEntity.ok(authenticationService.refreshToken(request));
     }
 
     @GetMapping("/logout")
