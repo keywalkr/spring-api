@@ -1,0 +1,38 @@
+
+# @host = http://localhost:8080/api/v1  another way to define variable
+
+### Get Users
+GET {{host}}/user/list
+
+### Get User By Id
+GET {{host}}/user/info/1
+
+### Register User
+POST {{host}}/auth/register
+Content-Type: application/json
+
+{
+    "firstname": "Karim",
+    "lastname": "Abdul",
+    "email": "karim@abdul.com",
+    "mobile": "0123654789",
+    "gender": "MALE",
+    "role": "CUSTOMER",
+    "account" : {
+        "username": "kabdul",
+        "password": "farm1990M0O",
+        "hash":"11c150eb6c1b776f390be60a0a5933a2a2f8c0a0ce766ed92fea5bfd9313c8f6",
+        "salt": "f1nd1ngd0ry"
+    }
+}
+
+### Change Password
+PUT {{host}}/user/change-password
+Content-Type: application/json
+
+{
+  "id": 2,
+  "oldPassword": "OldPassword",
+  "newPassword": "NewPassword",
+  "reNewPassword": "NewPassword"
+}
