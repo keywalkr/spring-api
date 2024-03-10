@@ -1,4 +1,4 @@
-name: Build & Deploy Spring
+name: Build KUMA Spring
 
 on:
   push:
@@ -10,8 +10,7 @@ on:
 
 jobs:
   build:
-    name: Build Spring boot
-
+    name: Build KUMA Spring
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +28,4 @@ jobs:
         run: mvn -B test --file pom.xml
 
       - name: Build
-        run:
-          mvn clean
-          mvn -B package --file pom.xml
+        run: mvn -B package -f pom.xml
