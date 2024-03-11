@@ -1,12 +1,13 @@
 package com.qburry.kapi.user.mapper;
 
+import com.qburry.kapi.commons.MapperConfiguration;
 import com.qburry.kapi.user.dto.Account;
 import com.qburry.kapi.user.model.AccountEntity;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", config = MapperConfiguration.class)
 public interface AccountMapper {
 
     Account toAccount(AccountEntity entity);

@@ -6,7 +6,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@With
 @AllArgsConstructor
 @NoArgsConstructor
 public class Category {

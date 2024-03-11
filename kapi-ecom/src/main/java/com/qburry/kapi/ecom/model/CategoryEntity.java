@@ -32,6 +32,7 @@ public class CategoryEntity implements Serializable {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     //@SQLRestriction("parent_id is null")
     @JsonManagedReference
+    @Builder.Default
     private Set<CategoryEntity> children = new HashSet<>();
 
     @CreationTimestamp

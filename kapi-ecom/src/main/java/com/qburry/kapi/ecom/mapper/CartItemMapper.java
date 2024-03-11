@@ -18,5 +18,6 @@ public interface CartItemMapper {
     @Mapping(target = "productId", source = "product.id")
     @Mapping(target = "cartId", source = "cart.id")
     CartItem toCartItem(CartItemEntity entity);
+
     Set<CartItem> toCartItems(List<CartItemEntity> entities);
 }

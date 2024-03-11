@@ -10,8 +10,10 @@ import java.util.List;
 public interface UserMapper {
 
     User toUser(UserEntity entity);
-    List<User> toUsers (List<UserEntity> entities);
+
+    List<User> toUsers(List<UserEntity> entities);
 
     UserEntity toEntity(User user);
+
     List<UserEntity> toEntities(List<User> users);
 }

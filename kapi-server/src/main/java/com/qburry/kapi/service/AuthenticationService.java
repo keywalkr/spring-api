@@ -63,7 +63,7 @@ public class AuthenticationService {
                 .map(user ->
                         AuthResponse.builder()
                                 .accessToken(jwtService.createToken(null))
-                                .token(refreshTokenService.updateRefreshToken(token))
+                                //.token(refreshTokenService.updateRefreshToken(token))
                                 .build())
                 .orElseThrow(() -> new RuntimeException(""));
     }

@@ -13,5 +13,5 @@ public interface CategoryHierarchyMapper {
     @Mapping(target = "parent", ignore = true)
     Category toCategory(CategoryEntity entity);
 
-    List<Category> toCategories (List<CategoryEntity> entities);
+    List<Category> toCategories(List<CategoryEntity> entities);
 }
