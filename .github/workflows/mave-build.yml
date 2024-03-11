@@ -44,5 +44,5 @@ jobs:
         with:
           context: .
           dockerfile: Dockerfile
-          push: ${{ env.PUSH_TO_HUB }}
+          push: true
           tags: ${{secrets.DOCKER_HUB_ZESHADOWZ_USERNAME }}/kuma-spring-api:$(date +'%Y-%m-%dT%H:%M:%S')
