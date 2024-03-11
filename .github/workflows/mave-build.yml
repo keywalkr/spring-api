@@ -37,7 +37,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_ZESHADOWZ_USERNAME }}
-          password: ${{ secrets.OCKER_HUB_ZESHADOWZ_ACCESS_TOKEN }}
+          password: ${{ secrets.DOCKER_HUB_ZESHADOWZ_ACCESS_TOKEN }}
 
       - name: Dockerize
         uses: docker/build-push-action@v5

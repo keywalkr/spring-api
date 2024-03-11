@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>kapi-commons</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <name>kapi-commons</name>
 
 <!--    <properties>-->

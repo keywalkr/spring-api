@@ -10,6 +10,7 @@
     <artifactId>kapi-ecom</artifactId>
     <packaging>jar</packaging>
     <name>kapi-ecom</name>
+    <version>${parent.version}</version>
 
 <!--    <properties>-->
 <!--        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
@@ -20,6 +21,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.qburry.kapi</groupId>
+            <artifactId>kapi-commons</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
